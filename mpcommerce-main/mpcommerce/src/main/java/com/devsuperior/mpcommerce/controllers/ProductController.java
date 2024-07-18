@@ -33,7 +33,7 @@ public class ProductController {
             throw new ResourceNotFoundException("Recurso não encontrado!");
         }
     }
-
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
         try {
