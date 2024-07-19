@@ -1,4 +1,4 @@
-package com.devsuperior.mpcommerce.dto;
+package com.devsuperior.mpcommerce.controllers.customerror;
 
 public class FieldMessage {
 

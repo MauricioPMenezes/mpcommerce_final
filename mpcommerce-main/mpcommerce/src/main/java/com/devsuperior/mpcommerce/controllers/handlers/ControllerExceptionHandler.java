@@ -2,8 +2,8 @@ package com.devsuperior.mpcommerce.controllers.handlers;
 
 import com.devsuperior.mpcommerce.Services.exceptions.DatabaseException;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
-import com.devsuperior.mpcommerce.dto.CustomError;
-import com.devsuperior.mpcommerce.dto.ValitadionError;
+import com.devsuperior.mpcommerce.controllers.customerror.CustomError;
+import com.devsuperior.mpcommerce.controllers.customerror.ValitadionError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
