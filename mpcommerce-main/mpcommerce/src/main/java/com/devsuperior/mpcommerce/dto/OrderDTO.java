@@ -4,6 +4,7 @@ package com.devsuperior.mpcommerce.dto;
 import com.devsuperior.mpcommerce.entities.Order;
 import com.devsuperior.mpcommerce.entities.OrderItem;
 import com.devsuperior.mpcommerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class OrderDTO {
 
     private PaymentDTO payment;
 
+    @NotEmpty(message = "Deve ter pelo menos um Item")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO() {
