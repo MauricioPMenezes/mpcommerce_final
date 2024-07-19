@@ -118,6 +118,10 @@ public class User  implements UserDetails {
         return true;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -152,6 +156,8 @@ public class User  implements UserDetails {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+
 
     @Override
     public String toString() {
