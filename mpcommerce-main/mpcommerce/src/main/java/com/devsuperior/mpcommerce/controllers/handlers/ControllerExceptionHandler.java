@@ -1,6 +1,7 @@
 package com.devsuperior.mpcommerce.controllers.handlers;
 
 import com.devsuperior.mpcommerce.Services.exceptions.DatabaseException;
+import com.devsuperior.mpcommerce.Services.exceptions.ForbiddenException;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
 import com.devsuperior.mpcommerce.controllers.customerror.CustomError;
 import com.devsuperior.mpcommerce.controllers.customerror.ValitadionError;
@@ -40,6 +41,13 @@ public class ControllerExceptionHandler {
             err.addError(f.getField(),f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError err = new CustomError(Instant.now(),status.value(),e.getMessage(),request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 }
