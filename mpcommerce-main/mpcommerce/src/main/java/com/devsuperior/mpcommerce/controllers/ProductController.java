@@ -2,6 +2,7 @@ package com.devsuperior.mpcommerce.controllers;
 
 import com.devsuperior.mpcommerce.Services.ProductService;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
+import com.devsuperior.mpcommerce.dto.CategoryDTO;
 import com.devsuperior.mpcommerce.dto.ProductDTO;
 import com.devsuperior.mpcommerce.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +25,18 @@ public class ProductController {
     @Autowired
     private ProductService service;
     ProductRepository repository;
+
+
+    @GetMapping(value = "/categories")
+    public ResponseEntity<Page<CategoryDTO>> findAllCategories(Pageable pageable) {
+        try {
+            Page<CategoryDTO> dto = service.findAllCategories(pageable);
+            return ResponseEntity.ok(dto);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado!");
+        }
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/{id}")
