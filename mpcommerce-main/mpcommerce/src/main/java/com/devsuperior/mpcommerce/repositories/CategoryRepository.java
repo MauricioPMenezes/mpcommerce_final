@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    @Query("SELECT obj " +
+    @Query("SELECT new com.devsuperior.mpcommerce.entities.Category( obj.id , obj.name ) " +
             "FROM Category obj ")
     Page<Category> searchAllCategory(Pageable pageable);
 }

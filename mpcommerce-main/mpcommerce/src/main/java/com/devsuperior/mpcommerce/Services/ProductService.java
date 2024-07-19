@@ -27,9 +27,6 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
         Product product = repository.findById(id).orElseThrow(
@@ -81,11 +78,6 @@ public class ProductService {
         }
     }
 
-    public Page<CategoryDTO> findAllCategories(Pageable pageable){
-
-        Page<Category> result= categoryRepository.searchAllCategory(pageable);
-
-        return result.map(x->new CategoryDTO(x));    }
 
     private void CopyDtoToEntity(ProductDTO dto, Product entity) {
 

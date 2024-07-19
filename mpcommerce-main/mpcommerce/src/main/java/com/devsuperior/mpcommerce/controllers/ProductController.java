@@ -1,5 +1,6 @@
 package com.devsuperior.mpcommerce.controllers;
 
+import com.devsuperior.mpcommerce.Services.CategoryService;
 import com.devsuperior.mpcommerce.Services.ProductService;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
 import com.devsuperior.mpcommerce.dto.CategoryDTO;
@@ -26,11 +27,24 @@ public class ProductController {
     private ProductService service;
     ProductRepository repository;
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping
+    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+        try {
+            Page<ProductDTO> dto = service.findAll(name,pageable);
+            return ResponseEntity.ok(dto);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado!");
+        }
+    }
+
 
     @GetMapping(value = "/categories")
     public ResponseEntity<Page<CategoryDTO>> findAllCategories(Pageable pageable) {
         try {
-            Page<CategoryDTO> dto = service.findAllCategories(pageable);
+            Page<CategoryDTO> dto = categoryService.findAllCategories(pageable);
             return ResponseEntity.ok(dto);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado!");
@@ -49,16 +63,6 @@ public class ProductController {
         }
     }
 
-
-    @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
-        try {
-            Page<ProductDTO> dto = service.findAll(name,pageable);
-            return ResponseEntity.ok(dto);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Recurso não encontrado!");
-        }
-    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
