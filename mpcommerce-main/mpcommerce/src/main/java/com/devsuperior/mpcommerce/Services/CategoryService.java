@@ -8,15 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Page<CategoryDTO> findAllCategories(Pageable pageable){
-
-        Page<Category> result= categoryRepository.searchAllCategory(pageable);
-
-        return result.map(x->new CategoryDTO(x));    }
+    public List<CategoryDTO> findAll(){
+        List<Category> result= categoryRepository.findAll();
+        return result.stream().map(x->new CategoryDTO(x)).toList();
+    }
 }

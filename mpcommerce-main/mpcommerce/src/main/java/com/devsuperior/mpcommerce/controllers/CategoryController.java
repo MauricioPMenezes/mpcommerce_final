@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryController {
@@ -20,10 +22,10 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<Page<CategoryDTO>> findAllCategories(Pageable pageable) {
+    public ResponseEntity<List<CategoryDTO>> findAllCategories(){
         try {
-            Page<CategoryDTO> dto = categoryService.findAllCategories(pageable);
-            return ResponseEntity.ok(dto);
+            List<CategoryDTO> list = categoryService.findAll();
+            return ResponseEntity.ok(list);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado!");
         }
