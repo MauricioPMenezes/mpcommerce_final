@@ -5,6 +5,7 @@ import com.devsuperior.mpcommerce.Services.ProductService;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
 import com.devsuperior.mpcommerce.dto.CategoryDTO;
 import com.devsuperior.mpcommerce.dto.ProductDTO;
+import com.devsuperior.mpcommerce.dto.ProductMinDTO;
 import com.devsuperior.mpcommerce.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -29,9 +30,9 @@ public class ProductController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+    public ResponseEntity<Page<ProductMinDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
         try {
-            Page<ProductDTO> dto = service.findAll(name,pageable);
+            Page<ProductMinDTO> dto = service.findAll(name,pageable);
             return ResponseEntity.ok(dto);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado!");

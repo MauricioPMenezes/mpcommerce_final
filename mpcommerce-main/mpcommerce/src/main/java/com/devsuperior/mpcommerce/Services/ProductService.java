@@ -4,6 +4,7 @@ import com.devsuperior.mpcommerce.Services.exceptions.DatabaseException;
 import com.devsuperior.mpcommerce.Services.exceptions.ResourceNotFoundException;
 import com.devsuperior.mpcommerce.dto.CategoryDTO;
 import com.devsuperior.mpcommerce.dto.ProductDTO;
+import com.devsuperior.mpcommerce.dto.ProductMinDTO;
 import com.devsuperior.mpcommerce.entities.Category;
 import com.devsuperior.mpcommerce.entities.Product;
 import com.devsuperior.mpcommerce.repositories.CategoryRepository;
@@ -35,9 +36,9 @@ public class ProductService {
 
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
          Page<Product> result= repository.searchByName(name,pageable);
-         return result.map(x->new ProductDTO(x));
+         return result.map(x->new ProductMinDTO(x));
 
     }
 
