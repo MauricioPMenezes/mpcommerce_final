@@ -1,92 +1,80 @@
 package com.devsuperior.mpcommerce.dto;
 
-import com.devsuperior.mpcommerce.entities.*;
-import jakarta.persistence.*;
+
+import com.devsuperior.mpcommerce.entities.Order;
+import com.devsuperior.mpcommerce.entities.OrderItem;
+import com.devsuperior.mpcommerce.entities.OrderStatus;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDTO {
 
     private Long id;
-
     private Instant moment;
 
     private OrderStatus status;
 
-    private User client;
+    private ClientDTO client;
 
-    private Payment payment;
+    private PaymentDTO payment;
 
-    private Set<OrderItem> items = new HashSet<>();
+    private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, Instant moment, OrderStatus status, User client, Payment payment, Set<OrderItem> items) {
+    public OrderDTO(Long id, Instant moment, OrderStatus status, ClientDTO client, PaymentDTO payment) {
         this.id = id;
         this.moment = moment;
         this.status = status;
         this.client = client;
         this.payment = payment;
-        this.items = items;
     }
 
-    public OrderDTO( Order entity) {
-        id = entity.getId();
-        moment = entity.getMoment();
-        status = entity.getStatus();
-        client = entity.getClient();
-        payment = entity.getPayment();
-        items = entity.getItems();
+    public OrderDTO(Order entity) {
+        this.id = entity.getId();
+        this.moment = entity.getMoment();
+        this.status = entity.getStatus();
+        this.client = new ClientDTO(entity.getClient());
+        this.payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
+        for(OrderItem item: entity.getItems()){
+            OrderItemDTO itemDto = new OrderItemDTO(item);
+            items.add(itemDto);
+        }
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Instant getMoment() {
         return moment;
-    }
-
-    public void setMoment(Instant moment) {
-        this.moment = moment;
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public User getClient() {
+    public ClientDTO getClient() {
         return client;
     }
 
-    public void setClient(User client) {
-        this.client = client;
-    }
-
-    public Payment getPayment() {
+    public PaymentDTO getPayment() {
         return payment;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public Set<OrderItem> getItems() {
+    public List<OrderItemDTO> getItems() {
         return items;
     }
 
-    public void setItems(Set<OrderItem> items) {
-        this.items = items;
+    public Double getTotal() {
+        double sum = 0.0;
+        for (OrderItemDTO item : items) {
+            sum += item.getSubTotal();
+        }
+        return sum;
     }
 }
+
