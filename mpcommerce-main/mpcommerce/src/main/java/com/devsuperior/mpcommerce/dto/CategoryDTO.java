@@ -8,6 +8,7 @@ public class CategoryDTO {
     private String name;
 
     public CategoryDTO() {
+
     }
 
     public CategoryDTO(Long id, String name) {
